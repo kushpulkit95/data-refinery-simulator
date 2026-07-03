@@ -16,6 +16,7 @@ public class DataRefinerySimulatorApplication {
 		SpringApplication.run(DataRefinerySimulatorApplication.class, args);
 		//to launch a Spring Application from a standard java main method
 
+		// ========== ALL THIS IS NOT NEEDED NOW!!! WE MADE BEANS!!! ==========
 		// CDRGenerator gen1 = new CDRGenerator();
 		// List<CDRRecord> cdrRecords = gen1.generateRecords(recordCount);
 		// System.out.println("===== CDR =====");
@@ -29,5 +30,6 @@ public class DataRefinerySimulatorApplication {
 		// for(NATRecord record : natRecords){
 		// 	System.out.println(record);
 		// }
+		// =====================================================================
 	}
 }

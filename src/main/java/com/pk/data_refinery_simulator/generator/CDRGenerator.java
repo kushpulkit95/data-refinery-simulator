@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.springframework.stereotype.Component;
+
 import com.pk.data_refinery_simulator.data.OperatorData;
 import com.pk.data_refinery_simulator.model.CDRRecord;
 import com.pk.data_refinery_simulator.model.Operator;
 import com.pk.data_refinery_simulator.data.IMEIData;
 import com.pk.data_refinery_simulator.util.RandomUtils;
 
+@Component //Asking spring to create and manage an object of this class
 public class CDRGenerator {
     // ---> This was test by passing fixed values. 28/6/2026
     // public CDRRecord generateCDRRecord(){

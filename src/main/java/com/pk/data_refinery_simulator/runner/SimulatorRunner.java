@@ -54,13 +54,21 @@ import com.pk.data_refinery_simulator.model.NATRecord;
 public class SimulatorRunner implements CommandLineRunner{
     /*main() called SpringApplication.run() which eventually called SimulatorRunner.run() */
 
+    private final CDRGenerator cdrGenerator;
     private final SimulatorProperties simulatorProperties;
+    private final NATGenerator natGenerator;
     //private & final coz we wnt SimulatorRunner only to use this and that it should not change.
     
-    public SimulatorRunner(SimulatorProperties simulatorProperties){
+    public SimulatorRunner(
+        SimulatorProperties simulatorProperties,
+        CDRGenerator cdrGenerator,
+        NATGenerator natGenerator
+    ){
         this.simulatorProperties = simulatorProperties;
+        this.cdrGenerator = cdrGenerator;
+        this.natGenerator = natGenerator;
     }
-    //Constructor Dependency Injection
+    //Constructor Dependency Injection - "To Create SimulatorRunner, I need this constructor"
     @Override
     public void run(String ...args) throws Exception {
         System.out.println("Simulator Started!");
@@ -71,16 +79,18 @@ public class SimulatorRunner implements CommandLineRunner{
         String datatype = simulatorProperties.getDataType();
 
         if(datatype.equals("CDR") || datatype.equals("BOTH")){
-            CDRGenerator gen1 = new CDRGenerator();
-            List<CDRRecord> cdrRecords = gen1.generateRecords(recordCount);
+            //CDRGenerator gen1 = new CDRGenerator();
+            //No need to use 'new' as we created bean for this
+            List<CDRRecord> cdrRecords = cdrGenerator.generateRecords(recordCount);
             System.out.println("===== CDR =====");
             for(CDRRecord record : cdrRecords){
             	System.out.println(record);
             }
         }
         if(datatype.equals("NAT") || datatype.equals("BOTH")){
-            NATGenerator gen2 = new NATGenerator();
-            List<NATRecord> natRecords = gen2.generateRecords(recordCount);
+            //NATGenerator gen2 = new NATGenerator();
+            //No need to use 'new' as we created bean for this
+            List<NATRecord> natRecords = natGenerator.generateRecords(recordCount);
             System.out.println("===== NAT =====");
             for(NATRecord record : natRecords){
                 System.out.println(record);

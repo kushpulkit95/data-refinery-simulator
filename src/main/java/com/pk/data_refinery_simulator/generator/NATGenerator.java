@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.springframework.stereotype.Component;
+
 import com.pk.data_refinery_simulator.model.NATRecord;
 import com.pk.data_refinery_simulator.util.RandomUtils;
 
+@Component //Asking spring to create and manage an object of this class
 public class NATGenerator {
     // ---> This was test by passing fixed values 28/06/2026
     // public NATRecord generateNATRecord(){
