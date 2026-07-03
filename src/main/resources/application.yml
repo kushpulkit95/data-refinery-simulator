@@ -1,0 +1,15 @@
+simulator:
+  record-count: 5
+  data-type : BOTH
+
+  timestamp:
+    mode : NOW
+    period : 60
+  
+  cdr: 
+    host: localhost
+    port: 5000
+  
+  nat:
+    host: localhost
+    port: 5001

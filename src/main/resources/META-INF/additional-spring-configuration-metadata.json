@@ -1,0 +1,42 @@
+{"properties": [
+  {
+    "name": "simulator.record-count",
+    "type": "java.lang.String",
+    "description": "A description for 'simulator.record-count'"
+  },
+  {
+    "name": "simulator.nat.host",
+    "type": "java.lang.String",
+    "description": "A description for 'simulator.nat.host'"
+  },
+  {
+    "name": "simulator.nat.port",
+    "type": "java.lang.String",
+    "description": "A description for 'simulator.nat.port'"
+  },
+  {
+    "name": "simulator.cdr.port",
+    "type": "java.lang.String",
+    "description": "A description for 'simulator.cdr.port'"
+  },
+  {
+    "name": "simulator.cdr.host",
+    "type": "java.lang.String",
+    "description": "A description for 'simulator.cdr.host'"
+  },
+  {
+    "name": "simulator.data-type",
+    "type": "java.lang.String",
+    "description": "A description for 'simulator.data-type'"
+  },
+  {
+    "name": "simulator.timestamp.period",
+    "type": "java.lang.String",
+    "description": "A description for 'simulator.timestamp.period'"
+  },
+  {
+    "name": "simulator.timestamp.mode",
+    "type": "java.lang.String",
+    "description": "A description for 'simulator.timestamp.mode'"
+  }
+]}
