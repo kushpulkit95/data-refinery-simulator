@@ -3,12 +3,14 @@ package com.pk.data_refinery_simulator.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import com.pk.data_refinery_simulator.enums.DataType;
+
 @Component
 @ConfigurationProperties(prefix = "simulator")
 public class SimulatorProperties {
 
     private int recordCount;
-    private String datatype;
+    private DataType datatype;
     private String timestamp;
     private int timeperiod;
 
@@ -19,10 +21,10 @@ public class SimulatorProperties {
         this.recordCount=recordCount;
     }
 
-    public String getDataType(){
+    public DataType getDataType(){
         return datatype;
     }
-    public void setDataType(String datatype){
+    public void setDataType(DataType datatype){
         this.datatype=datatype;
     }
 

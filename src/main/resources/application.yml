@@ -1,7 +1,11 @@
 simulator:
   record-count: 5
   data-type : BOTH
-
+  # Allowed values:
+  # CDR
+  # NAT
+  # BOTH
+  
   timestamp:
     mode : NOW
     period : 60

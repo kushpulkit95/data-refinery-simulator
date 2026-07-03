@@ -49,6 +49,7 @@ import com.pk.data_refinery_simulator.generator.CDRGenerator;
 import com.pk.data_refinery_simulator.generator.NATGenerator;
 import com.pk.data_refinery_simulator.model.CDRRecord;
 import com.pk.data_refinery_simulator.model.NATRecord;
+import com.pk.data_refinery_simulator.enums.DataType;
 
 @Component
 public class SimulatorRunner implements CommandLineRunner{
@@ -76,9 +77,10 @@ public class SimulatorRunner implements CommandLineRunner{
         //---> this was test run to see if simulator is reading the config or not
 
         int recordCount = simulatorProperties.getRecordCount();
-        String datatype = simulatorProperties.getDataType();
+        DataType datatype = simulatorProperties.getDataType();
+        //We using ENUM because VSCode auto suggests CDR,NAT,BOTH and easier to DEBUG
 
-        if(datatype.equals("CDR") || datatype.equals("BOTH")){
+        if(datatype==DataType.CDR || datatype==DataType.BOTH){
             //CDRGenerator gen1 = new CDRGenerator();
             //No need to use 'new' as we created bean for this
             List<CDRRecord> cdrRecords = cdrGenerator.generateRecords(recordCount);
@@ -87,7 +89,7 @@ public class SimulatorRunner implements CommandLineRunner{
             	System.out.println(record);
             }
         }
-        if(datatype.equals("NAT") || datatype.equals("BOTH")){
+        if(datatype==DataType.NAT || datatype==DataType.BOTH){
             //NATGenerator gen2 = new NATGenerator();
             //No need to use 'new' as we created bean for this
             List<NATRecord> natRecords = natGenerator.generateRecords(recordCount);
