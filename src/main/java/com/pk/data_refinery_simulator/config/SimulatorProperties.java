@@ -1,17 +1,17 @@
 package com.pk.data_refinery_simulator.config;
 
+import java.time.LocalDate;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
-
-import com.pk.data_refinery_simulator.enums.DataType;
 
 @Component
 @ConfigurationProperties(prefix = "simulator")
 public class SimulatorProperties {
 
     private int recordCount;
-    private DataType datatype;
-    private String timestamp;
+    private String datatype;
+    private LocalDate timestamp;
     private int timeperiod;
 
     public int getRecordCount(){
@@ -21,17 +21,17 @@ public class SimulatorProperties {
         this.recordCount=recordCount;
     }
 
-    public DataType getDataType(){
+    public String getDataType(){
         return datatype;
     }
-    public void setDataType(DataType datatype){
+    public void setDataType(String datatype){
         this.datatype=datatype;
     }
 
-    public String getTimestamp(){
+    public LocalDate getTimestamp(){
         return timestamp;
     }
-    public void setTimestamp(String timestamp){
+    public void setTimestamp(LocalDate timestamp){
         this.timestamp=timestamp;
     }
 

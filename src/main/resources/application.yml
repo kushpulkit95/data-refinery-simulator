@@ -1,19 +1,16 @@
 simulator:
-  record-count: 5
-  data-type : BOTH
+  record-count: 25
+  data-type : cdr,nat
   # Allowed values:
-  # CDR
-  # NAT
-  # BOTH
+  # cdr
+  # nat
+  # cdr,nat
+
+  time-stamp: 2024-01-01
+  timeperiod : 15000
   
-  timestamp:
-    mode : NOW
-    period : 60
+  cdrhost: localhost
+  cdrport: 5000
   
-  cdr: 
-    host: localhost
-    port: 5000
-  
-  nat:
-    host: localhost
-    port: 5001
+  nathost: localhost
+  natport: 5001

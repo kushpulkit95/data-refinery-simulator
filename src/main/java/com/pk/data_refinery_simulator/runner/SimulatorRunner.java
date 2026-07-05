@@ -39,6 +39,7 @@
  */
 package com.pk.data_refinery_simulator.runner;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
@@ -49,7 +50,6 @@ import com.pk.data_refinery_simulator.generator.CDRGenerator;
 import com.pk.data_refinery_simulator.generator.NATGenerator;
 import com.pk.data_refinery_simulator.model.CDRRecord;
 import com.pk.data_refinery_simulator.model.NATRecord;
-import com.pk.data_refinery_simulator.enums.DataType;
 
 @Component
 public class SimulatorRunner implements CommandLineRunner{
@@ -76,27 +76,45 @@ public class SimulatorRunner implements CommandLineRunner{
         //System.out.println("Record Count is: "+ simulatorProperties.getRecordCount());
         //---> this was test run to see if simulator is reading the config or not
 
+        //########## READING VARIABLES FROM APPLICATION.YML ##########
         int recordCount = simulatorProperties.getRecordCount();
-        DataType datatype = simulatorProperties.getDataType();
-        //We using ENUM because VSCode auto suggests CDR,NAT,BOTH and easier to DEBUG
+        String datatype = simulatorProperties.getDataType().toLowerCase(); //incase yml has wrong caps
+        LocalDate simulationDate = simulatorProperties.getTimestamp();
+        int timeperiod = simulatorProperties.getTimePeriod();
 
-        if(datatype==DataType.CDR || datatype==DataType.BOTH){
-            //CDRGenerator gen1 = new CDRGenerator();
-            //No need to use 'new' as we created bean for this
-            List<CDRRecord> cdrRecords = cdrGenerator.generateRecords(recordCount);
-            System.out.println("===== CDR =====");
-            for(CDRRecord record : cdrRecords){
-            	System.out.println(record);
+        long endtime = System.currentTimeMillis() + timeperiod; //calculate endtime of running of simulator
+        int cycle = 1; //cycle counter;
+        //=============================================================
+
+        while(System.currentTimeMillis() < endtime){
+            System.out.println("\n==========================================================");
+            System.out.println("Cycle " + cycle
+                    + " | Date: " + simulationDate
+                    + " | Record Count: " + recordCount);
+            System.out.println("==========================================================");
+
+            if(datatype.equals("cdr") || datatype.equals("cdr,nat")){
+                //CDRGenerator gen1 = new CDRGenerator();
+                //No need to use 'new' as we created bean for this
+                List<CDRRecord> cdrRecords = cdrGenerator.generateRecords(recordCount,simulationDate);
+                System.out.println("\nCDR RECORDS");
+                System.out.println("-----------");
+                for(CDRRecord record : cdrRecords){
+                    System.out.println(record);
+                }
             }
-        }
-        if(datatype==DataType.NAT || datatype==DataType.BOTH){
-            //NATGenerator gen2 = new NATGenerator();
-            //No need to use 'new' as we created bean for this
-            List<NATRecord> natRecords = natGenerator.generateRecords(recordCount);
-            System.out.println("===== NAT =====");
-            for(NATRecord record : natRecords){
-                System.out.println(record);
+            if(datatype.equals("nat") || datatype.equals("cdr,nat")){
+                //NATGenerator gen2 = new NATGenerator();
+                //No need to use 'new' as we created bean for this
+                List<NATRecord> natRecords = natGenerator.generateRecords(recordCount,simulationDate);
+                System.out.println("\nNAT RECORDS");
+                System.out.println("-----------");
+                for(NATRecord record : natRecords){
+                    System.out.println(record);
+                }
             }
+            Thread.sleep(1000);
+            cycle++;
         }
     }
 }

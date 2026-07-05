@@ -1,5 +1,6 @@
 package com.pk.data_refinery_simulator.generator;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.pk.data_refinery_simulator.model.NATRecord;
 import com.pk.data_refinery_simulator.util.RandomUtils;
+import com.pk.data_refinery_simulator.config.SimulatorProperties;
 
 @Component //Asking spring to create and manage an object of this class
 public class NATGenerator {
@@ -34,7 +36,7 @@ public class NATGenerator {
     );
     private final Random random = new Random();
 
-    public NATRecord generateRecord(){
+    public NATRecord generateRecord(LocalDate simulationDate){
         return new NATRecord(
             generatePrivateIP(), 
             generatePrivatePort(), 
@@ -43,13 +45,13 @@ public class NATGenerator {
             generateDestinationIP(), 
             generateDestinationPort(), 
             generateProtocol(), 
-            generateTimestamp());
+            generateTimestamp(simulationDate));
     }
 
-    public List<NATRecord> generateRecords(int recordCount){
+    public List<NATRecord> generateRecords(int recordCount, LocalDate simulationDate){
         List<NATRecord> records = new ArrayList<>();
         for(int i=0;i<recordCount;i++){
-            records.add(generateRecord());
+            records.add(generateRecord(simulationDate));
         }
         return records;
     }
@@ -109,7 +111,7 @@ public class NATGenerator {
                + thirdOctet + "." 
                + fourthOctet;
     }
-    
+
     private int generatePublicPort(){
         return RandomUtils.randomInteger(1024, 65535);
     }
@@ -130,8 +132,13 @@ public class NATGenerator {
         return protocol.get(index);
     }
     
-    private LocalDateTime generateTimestamp(){
-        return LocalDateTime.now();
+    private LocalDateTime generateTimestamp(LocalDate simulationDate){
+        int hour = RandomUtils.randomInteger(0,23);
+        int minute = RandomUtils.randomInteger(0,59);
+        int second = RandomUtils.randomInteger(0,59);
+        //getting random time 
+
+        return simulationDate.atTime(hour, minute, second);
     }
 
     private boolean isPrivateIP(int first, int second){

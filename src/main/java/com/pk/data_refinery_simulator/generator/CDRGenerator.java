@@ -1,10 +1,12 @@
 package com.pk.data_refinery_simulator.generator;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Component;
 
 import com.pk.data_refinery_simulator.data.OperatorData;
@@ -27,7 +29,7 @@ public class CDRGenerator {
     // }
     private final Random random = new Random();
 
-    public CDRRecord generateRecord(){
+    public CDRRecord generateRecord(LocalDate simulationDate){
         Operator operator = pickRandomOperator();
         String tac = pickRandomTAC();
         // NEVER do :
@@ -42,14 +44,14 @@ public class CDRGenerator {
             generateAPN(operator), 
             generateRatType(),
             generateAction(),
-            generateTimestamp());
+            generateTimestamp(simulationDate));
     }
 
-    public List<CDRRecord> generateRecords(int recordCount){
+    public List<CDRRecord> generateRecords(int recordCount,LocalDate simulationDate){
         List<CDRRecord> records = new ArrayList<>();
 
         for(int i=0;i<recordCount;i++){
-            records.add(generateRecord());
+            records.add(generateRecord(simulationDate));
         }
         return records;
     }
@@ -115,8 +117,13 @@ public class CDRGenerator {
         return actionTypes.get(index);
     }
 
-    private LocalDateTime generateTimestamp(){
-        return LocalDateTime.now();
+    private LocalDateTime generateTimestamp(LocalDate simulationDate){
+        int hour = RandomUtils.randomInteger(0,23);
+        int minute = RandomUtils.randomInteger(0,59);
+        int second = RandomUtils.randomInteger(0,59);
+        //getting random time 
+
+        return simulationDate.atTime(hour, minute, second);
     }
 
     private Operator pickRandomOperator(){
