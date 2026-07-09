@@ -30,13 +30,13 @@ public class CDRGenerator {
     private final Random random = new Random();
 
     public CDRRecord generateRecord(LocalDate simulationDate){
-        Operator operator = pickRandomOperator();
-        String tac = pickRandomTAC();
         // NEVER do :
         // Operator operator = pickRandomOperator(); 
         // in every generate function as they will not be same
         // here, as the operator may vary in imsi and msisdn
-
+        Operator operator = pickRandomOperator();
+        String tac = pickRandomTAC();
+        
         return new CDRRecord(
             generateIMSI(operator), 
             generateMSISDN(operator), 

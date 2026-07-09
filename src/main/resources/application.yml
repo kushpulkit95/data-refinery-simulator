@@ -1,5 +1,5 @@
 simulator:
-  record-count: 25
+  record-count: 5
   data-type : cdr,nat
   # Allowed values:
   # cdr
@@ -7,10 +7,10 @@ simulator:
   # cdr,nat
 
   time-stamp: 2024-01-01
-  timeperiod : 15000
+  timeperiod : 2000
   
   cdrhost: localhost
   cdrport: 5000
   
   nathost: localhost
-  natport: 5001
+  natport: 5000

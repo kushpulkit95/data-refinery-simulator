@@ -13,6 +13,10 @@ public class SimulatorProperties {
     private String datatype;
     private LocalDate timestamp;
     private int timeperiod;
+    private String cdrhost;
+    private int cdrport;
+    private String nathost;
+    private int natport;
 
     public int getRecordCount(){
         return recordCount;
@@ -40,5 +44,33 @@ public class SimulatorProperties {
     }
     public void setTimePeriod(int timeperiod){
         this.timeperiod=timeperiod;
+    }
+
+    public String getCdrHost(){
+        return cdrhost;
+    }
+    public void setCdrHost(String cdrhost){
+        this.cdrhost=cdrhost;
+    }
+
+    public int getCdrPort(){
+        return cdrport;
+    }
+    public void setCdrPort(int cdrport){
+        this.cdrport=cdrport;
+    }
+
+    public String getNatHost(){
+        return nathost;
+    }
+    public void setNatHost(String nathost){
+        this.nathost=nathost;
+    }
+
+    public int getNatPort(){
+        return natport;
+    }
+    public void setNatPort(int natport){
+        this.natport=natport;
     }
 }

@@ -19,9 +19,16 @@ A Spring Boot based telecom data simulator developed as part of my internship pr
 
 ## Current Progress
 
-- ✅ CDR Generator
-- ✅ NAT Generator
-- ✅ Configurable recordCount
-- ✅ Configurable datatype
-- ⏳ TCP Transmission
-- ⏳ CSV Output
+- Generate realistic CDR records
+- Generate realistic NAT records
+- External configuration using application.yml
+- Configurable record count, timestamp and simulation duration
+- TCP client support
+- Runtime statistics (Generated / Sent / Failed)
+
+## Planned Features
+
+- UDP client
+- Runtime -D properties
+- File output
+- Enhanced logging
