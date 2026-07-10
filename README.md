@@ -18,11 +18,12 @@ The simulator generates realistic **Call Detail Records (CDR)** and **NAT Log** 
 - External configuration using `application.yml`
 - Spring Boot `@ConfigurationProperties`
 - Constructor Dependency Injection
+- Interface-based sender architecture
 - Modular generator architecture
+- Configurable communication protocol (TCP / UDP)
 - Configurable simulation timestamp
 - Configurable simulation duration
-- TCP client for transmitting generated records
-- Runtime statistics (Generated / Sent / Failed)
+- Runtime transmission statistics (Generated / Sent / Failed)
 
 ---
 
@@ -32,6 +33,7 @@ The simulator generates realistic **Call Detail Records (CDR)** and **NAT Log** 
 - Spring Boot 4.1
 - Maven
 - TCP Socket Programming
+- UDP Socket Programming
 
 ---
 
@@ -61,6 +63,8 @@ simulator:
   # nat
   # cdr,nat
 
+  protocol : tcp
+
   timestamp: 2024-01-01
   timeperiod: 30000
 
@@ -68,7 +72,7 @@ simulator:
   cdrport: 5000
 
   nathost: localhost
-  natport: 5001
+  natport: 5000
 ```
 
 ---
@@ -82,9 +86,9 @@ simulator:
 - [x] Configurable simulation duration
 - [x] TCP client implementation
 - [x] Runtime transmission statistics
-- [ ] UDP client implementation
+- [x] UDP client implementation
+- [x] CSV / Flat file generation
 - [ ] Runtime configuration using `-D` properties
-- [ ] CSV / Flat file generation
 - [ ] Enhanced logging
 
 ---
@@ -97,8 +101,9 @@ This project was built to gain hands-on experience with:
 - Dependency Injection
 - Configuration management
 - Object-Oriented Design
-- TCP Socket Programming
-- File I/O
+- Interface-based design
+- TCP & UDP Socket Programming
+- Java File I/O
 - Clean software architecture
 - Modular application design
 
