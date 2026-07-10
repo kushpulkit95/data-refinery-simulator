@@ -1,10 +1,15 @@
 simulator:
-  record-count: 5
+  record-count: 10
   data-type : cdr,nat
   # Allowed values:
   # cdr
   # nat
   # cdr,nat
+
+  protocol : tcp
+  # Allowed values:
+  # tcp
+  # udp
 
   time-stamp: 2024-01-01
   timeperiod : 2000

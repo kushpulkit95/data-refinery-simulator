@@ -1,10 +1,10 @@
-package com.pk.data_refinery_simulator.tcp_sender;
+package com.pk.data_refinery_simulator.network;
 
 import java.net.Socket;
 import java.io.PrintWriter;
 import java.io.IOException;
 
-public class TcpSender {
+public class TcpSender implements Sender{
     
     private final String host;
     private final int port;

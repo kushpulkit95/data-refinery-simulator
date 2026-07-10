@@ -17,6 +17,7 @@ public class SimulatorProperties {
     private int cdrport;
     private String nathost;
     private int natport;
+    private String protocol;
 
     public int getRecordCount(){
         return recordCount;
@@ -72,5 +73,12 @@ public class SimulatorProperties {
     }
     public void setNatPort(int natport){
         this.natport=natport;
+    }
+
+    public String getProtocol(){
+        return protocol;
+    }
+    public void setProtocol(String protocol){
+        this.protocol=protocol;
     }
 }

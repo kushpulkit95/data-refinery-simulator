@@ -50,7 +50,9 @@ import com.pk.data_refinery_simulator.generator.CDRGenerator;
 import com.pk.data_refinery_simulator.generator.NATGenerator;
 import com.pk.data_refinery_simulator.model.CDRRecord;
 import com.pk.data_refinery_simulator.model.NATRecord;
-import com.pk.data_refinery_simulator.tcp_sender.TcpSender;
+import com.pk.data_refinery_simulator.network.TcpSender;
+import com.pk.data_refinery_simulator.network.UdpSender;
+import com.pk.data_refinery_simulator.network.Sender;
 
 @Component
 public class SimulatorRunner implements CommandLineRunner{
@@ -73,7 +75,6 @@ public class SimulatorRunner implements CommandLineRunner{
     //Constructor Dependency Injection - "To Create SimulatorRunner, I need this constructor"
     @Override
     public void run(String ...args) throws Exception {
-        System.out.println("Simulator Started!");
         //System.out.println("Record Count is: "+ simulatorProperties.getRecordCount());
         //---> this was test run to see if simulator is reading the config or not
 
@@ -86,17 +87,39 @@ public class SimulatorRunner implements CommandLineRunner{
         int cdrport = simulatorProperties.getCdrPort();
         String nathost = simulatorProperties.getNatHost();
         int natport = simulatorProperties.getNatPort();
+        String protocol = simulatorProperties.getProtocol();
 
         long endtime = System.currentTimeMillis() + timeperiod; //calculate endtime of running of simulator
         int cycle = 1; //cycle counter;
         //=============================================================
 
-        TcpSender cdrSender = new TcpSender(cdrhost,cdrport);
-        TcpSender natSender = new TcpSender(nathost,natport);
+        Sender cdrSender = null; //cdr sender object
+        Sender natSender = null; //nat sender object
+
+        if(protocol.equals("tcp")){ //TcpSender
+            cdrSender = new TcpSender(cdrhost,cdrport);
+            natSender = new TcpSender(nathost,natport);
+        }
+        else if(protocol.equals("udp")){ //UdpSender
+            cdrSender = new UdpSender(cdrhost, cdrport);
+            natSender = new UdpSender(nathost, natport);
+        }
 
         int generatedCount = 0;
         int sentCount = 0;
         int failedCount = 0;
+
+        System.out.println("""
+                ==========================================================
+                            DATA REFINERY SIMULATOR v1.0
+                ==========================================================
+                Status      : RUNNING
+                Protocol    : %s
+                Data Type   : %s
+                Record Count: %d
+                ==========================================================
+                """
+                .formatted(protocol.toUpperCase(), datatype.toUpperCase(), recordCount));
 
         while(System.currentTimeMillis() < endtime){
 
