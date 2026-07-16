@@ -17,9 +17,11 @@ public class SimulatorProperties {
     private int cdrport;
     private String nathost;
     private int natport;
-    private String protocol;
 
     public int getRecordCount(){
+        String override = System.getProperty("recordcount");
+        if(override!=null)
+            return Integer.parseInt(override);
         return recordCount;
     }
     public void setRecordCount(int recordCount){
@@ -27,6 +29,9 @@ public class SimulatorProperties {
     }
 
     public String getDataType(){
+        String override = System.getProperty("datatype");
+        if(override!=null)
+            return override;
         return datatype;
     }
     public void setDataType(String datatype){
@@ -34,6 +39,9 @@ public class SimulatorProperties {
     }
 
     public LocalDate getTimestamp(){
+        String override = System.getProperty("timestamp");
+        if(override!=null)
+            return LocalDate.parse(override);
         return timestamp;
     }
     public void setTimestamp(LocalDate timestamp){
@@ -41,6 +49,9 @@ public class SimulatorProperties {
     }
 
     public int getTimePeriod(){
+        String override = System.getProperty("timeperiod");
+        if(override!=null)
+            return Integer.parseInt(override);
         return timeperiod;
     }
     public void setTimePeriod(int timeperiod){
@@ -48,6 +59,9 @@ public class SimulatorProperties {
     }
 
     public String getCdrHost(){
+        String override = System.getProperty("cdrhost");
+        if(override!=null)
+            return override;
         return cdrhost;
     }
     public void setCdrHost(String cdrhost){
@@ -55,6 +69,9 @@ public class SimulatorProperties {
     }
 
     public int getCdrPort(){
+        String override = System.getProperty("cdrport");
+        if(override!=null)
+            return Integer.parseInt(override);
         return cdrport;
     }
     public void setCdrPort(int cdrport){
@@ -62,6 +79,9 @@ public class SimulatorProperties {
     }
 
     public String getNatHost(){
+        String override = System.getProperty("nathost");
+        if(override!=null)
+            return override;
         return nathost;
     }
     public void setNatHost(String nathost){
@@ -69,16 +89,12 @@ public class SimulatorProperties {
     }
 
     public int getNatPort(){
+        String override = System.getProperty("natport");
+        if(override!=null)
+            return Integer.parseInt(override);
         return natport;
     }
     public void setNatPort(int natport){
         this.natport=natport;
-    }
-
-    public String getProtocol(){
-        return protocol;
-    }
-    public void setProtocol(String protocol){
-        this.protocol=protocol;
     }
 }

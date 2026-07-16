@@ -22,16 +22,28 @@ public class CDRRecord {
         this.timestamp = timestamp;
 }
 
-    @Override
-    public String toString() {
-        return "CDRRecord{" +
-        "imsi='" + imsi + '\'' +
-        ", msisdn='" + msisdn + '\'' +
-        ", imei='" + imei + '\'' +
-        ", apn='" + apn + '\'' +
-        ", ratType='" + ratType + '\'' +
-        ", action='" + action + '\'' +
-        ", timestamp=" + timestamp +
-        '}';
-}
+//     @Override
+//     public String toString() {
+//         return "CDRRecord{" +
+//         "imsi='" + imsi + '\'' +
+//         ", msisdn='" + msisdn + '\'' +
+//         ", imei='" + imei + '\'' +
+//         ", apn='" + apn + '\'' +
+//         ", ratType='" + ratType + '\'' +
+//         ", action='" + action + '\'' +
+//         ", timestamp=" + timestamp +
+//         '}';
+// }
+
+    public String toCsv(){
+        return String.join(",", 
+            imsi,
+            msisdn,
+            imei,
+            apn,
+            ratType,
+            action,
+            timestamp.toString()
+        );
+    }
 }

@@ -73,5 +73,10 @@
     "name": "simulator.protocol",
     "type": "java.lang.String",
     "description": "A description for 'simulator.protocol'"
+  },
+  {
+    "name": "simulator.datatype",
+    "type": "java.lang.String",
+    "description": "A description for 'simulator.datatype'"
   }
 ]}

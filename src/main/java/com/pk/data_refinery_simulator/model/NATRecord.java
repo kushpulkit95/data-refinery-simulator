@@ -33,17 +33,30 @@ public class NATRecord {
         this.timestamp=timestamp;
 
     }
-    @Override
-    public String toString() {
-        return "NATRecord{" +
-        "Private IP='" + privateIp + '\'' +
-        ", Private Port='" + privatePort + '\'' +
-        ", Public IP='" + publicIp + '\'' +
-        ", Public Port='" + publicPort + '\'' +
-        ", Destination IP='" + destinationIp + '\'' +
-        ", Destination Port='" + destinationPort + '\'' +
-        ", Protocol='" + protocol + '\'' +
-        ", Timestamp='" + timestamp + 
-        '}';
-}
+//     @Override
+//     public String toString() {
+//         return "NATRecord{" +
+//         "Private IP='" + privateIp + '\'' +
+//         ", Private Port='" + privatePort + '\'' +
+//         ", Public IP='" + publicIp + '\'' +
+//         ", Public Port='" + publicPort + '\'' +
+//         ", Destination IP='" + destinationIp + '\'' +
+//         ", Destination Port='" + destinationPort + '\'' +
+//         ", Protocol='" + protocol + '\'' +
+//         ", Timestamp='" + timestamp + 
+//         '}';
+// }
+
+    public String toCsv(){
+        return String.join(",",
+            privateIp,
+            Integer.toString(privatePort),
+            publicIp,
+            Integer.toString(publicPort),
+            destinationIp,
+            Integer.toString(destinationPort),
+            protocol,
+            timestamp.toString()
+         );
+    }
 }

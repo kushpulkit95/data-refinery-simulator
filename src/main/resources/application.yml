@@ -1,21 +1,16 @@
 simulator:
-  record-count: 10
-  data-type : cdr,nat
+  record-count: 5
+  datatype : cdr,nat
   # Allowed values:
   # cdr
   # nat
   # cdr,nat
 
-  protocol : tcp
-  # Allowed values:
-  # tcp
-  # udp
-
-  time-stamp: 2024-01-01
-  timeperiod : 2000
+  time-stamp: 2026-07-13
+  timeperiod : 1000
   
   cdrhost: localhost
   cdrport: 5000
   
   nathost: localhost
-  natport: 5000
+  natport: 5001

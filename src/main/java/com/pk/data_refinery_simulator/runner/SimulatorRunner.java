@@ -87,23 +87,17 @@ public class SimulatorRunner implements CommandLineRunner{
         int cdrport = simulatorProperties.getCdrPort();
         String nathost = simulatorProperties.getNatHost();
         int natport = simulatorProperties.getNatPort();
-        String protocol = simulatorProperties.getProtocol();
 
         long endtime = System.currentTimeMillis() + timeperiod; //calculate endtime of running of simulator
         int cycle = 1; //cycle counter;
+
+        // java -Drecordcount=50 -Ddatatype=nat -jar target/data-refinery-simulator-0.0.1-SNAPSHOT.jar
+        // java -Drecordcount=50 -Dtimestamp=2021-03-05 -jar target/data-refinery-simulator-0.0.1-SNAPSHOT.jar
+        
         //=============================================================
 
-        Sender cdrSender = null; //cdr sender object
-        Sender natSender = null; //nat sender object
-
-        if(protocol.equals("tcp")){ //TcpSender
-            cdrSender = new TcpSender(cdrhost,cdrport);
-            natSender = new TcpSender(nathost,natport);
-        }
-        else if(protocol.equals("udp")){ //UdpSender
-            cdrSender = new UdpSender(cdrhost, cdrport);
-            natSender = new UdpSender(nathost, natport);
-        }
+        Sender cdrSender = new TcpSender(cdrhost, cdrport); //cdr sender object
+        Sender natSender = new UdpSender(nathost, natport); //nat sender object
 
         int generatedCount = 0;
         int sentCount = 0;
@@ -114,12 +108,11 @@ public class SimulatorRunner implements CommandLineRunner{
                             DATA REFINERY SIMULATOR v1.0
                 ==========================================================
                 Status      : RUNNING
-                Protocol    : %s
                 Data Type   : %s
                 Record Count: %d
                 ==========================================================
                 """
-                .formatted(protocol.toUpperCase(), datatype.toUpperCase(), recordCount));
+                .formatted(datatype.toUpperCase(), recordCount));
 
         while(System.currentTimeMillis() < endtime){
 
@@ -142,7 +135,7 @@ public class SimulatorRunner implements CommandLineRunner{
                 for(CDRRecord record : cdrRecords){
                     generatedCount++;
                     cdrGenerated++;
-                    if(cdrSender.send(record.toString())){
+                    if(cdrSender.send(record.toCsv())){
                         sentCount++;
                         cdrSent++;
                     }
@@ -170,7 +163,7 @@ public class SimulatorRunner implements CommandLineRunner{
                 for(NATRecord record : natRecords){
                     generatedCount++;
                     natGenerated++;
-                    if(natSender.send(record.toString())){
+                    if(natSender.send(record.toCsv())){
                         sentCount++;
                         natSent++;
                     }
@@ -185,6 +178,9 @@ public class SimulatorRunner implements CommandLineRunner{
                                    "Failed   : "+natFailed
                 );
             }
+            // Current implementation uses Thread.sleep() for simplicity.
+            // Replace with Spring Scheduling (@EnableScheduling + @Scheduled)
+            // if periodic task scheduling becomes a project requirement.
             Thread.sleep(1000);
             cycle++;
         }
