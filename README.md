@@ -16,11 +16,13 @@ The simulator generates realistic **Call Detail Records (CDR)** and **NAT Log** 
 - Generate realistic **CDR (Call Detail Record)** data
 - Generate realistic **NAT Log** data
 - External configuration using `application.yml`
+- Runtime configuration using Java `-D` system properties
 - Spring Boot `@ConfigurationProperties`
 - Constructor Dependency Injection
 - Interface-based sender architecture
 - Modular generator architecture
-- Configurable communication protocol (TCP / UDP)
+- CDR transmission over **TCP**
+- NAT Log transmission over **UDP**
 - Configurable simulation timestamp
 - Configurable simulation duration
 - Runtime transmission statistics (Generated / Sent / Failed)
@@ -63,8 +65,6 @@ simulator:
   # nat
   # cdr,nat
 
-  protocol : tcp
-
   timestamp: 2024-01-01
   timeperiod: 30000
 
@@ -72,8 +72,46 @@ simulator:
   cdrport: 5000
 
   nathost: localhost
-  natport: 5000
+  natport: 5001
 ```
+
+---
+
+## Runtime Configuration
+
+The simulator supports overriding configuration values at runtime using Java system properties (`-D` arguments). This allows different simulation scenarios to be executed without modifying the `application.yml` file.
+
+### Supported Properties
+
+| Property | Description |
+|----------|-------------|
+| `recordcount` | Number of records generated per data type |
+| `datatype` | Data type to generate (`CDR`, `NAT`, or `BOTH`) |
+| `timestamp` | Starting timestamp for generated records |
+| `timeperiod` | Simulation duration in milliseconds |
+| `cdrhost` | TCP receiver host |
+| `cdrport` | TCP receiver port |
+| `nathost` | UDP receiver host |
+| `natport` | UDP receiver port |
+
+### Example
+
+Generate **15,000 CDR** and **15,000 NAT** records over a period of **1000 milliseconds**:
+
+```bash
+java -Drecordcount=15000 ^
+     -Ddatatype=BOTH ^
+     -Dtimeperiod=1000 ^
+     -jar target/data-refinery-simulator-0.0.1-SNAPSHOT.jar
+```
+
+**PowerShell**
+
+```powershell
+java -Drecordcount=15000 -Ddatatype=BOTH -Dtimeperiod=1000 -jar target/data-refinery-simulator-0.0.1-SNAPSHOT.jar
+```
+
+If a property is not supplied, the simulator automatically falls back to the corresponding value defined in `application.yml`.
 
 ---
 
@@ -87,8 +125,7 @@ simulator:
 - [x] TCP client implementation
 - [x] Runtime transmission statistics
 - [x] UDP client implementation
-- [x] CSV / Flat file generation
-- [ ] Runtime configuration using `-D` properties
+- [x] Runtime configuration using `-D` properties
 - [ ] Enhanced logging
 
 ---
