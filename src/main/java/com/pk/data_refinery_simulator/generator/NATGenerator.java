@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import com.pk.data_refinery_simulator.model.NATRecord;
 import com.pk.data_refinery_simulator.util.RandomUtils;
-import com.pk.data_refinery_simulator.config.SimulatorProperties;
 
 @Component //Asking spring to create and manage an object of this class
 public class NATGenerator {

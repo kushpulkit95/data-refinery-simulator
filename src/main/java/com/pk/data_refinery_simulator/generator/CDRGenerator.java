@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Component;
 
 import com.pk.data_refinery_simulator.data.OperatorData;

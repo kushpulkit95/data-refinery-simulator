@@ -19,82 +19,87 @@ public class SimulatorProperties {
     private int natport;
 
     public int getRecordCount(){
-        String override = System.getProperty("recordcount");
-        if(override!=null)
-            return Integer.parseInt(override);
-        return recordCount;
+        String value = getOverride("recordcount", "RECORDCOUNT");
+
+        return value != null ? Integer.parseInt(value) : recordCount;
+
     }
     public void setRecordCount(int recordCount){
         this.recordCount=recordCount;
     }
 
     public String getDataType(){
-        String override = System.getProperty("datatype");
-        if(override!=null)
-            return override;
-        return datatype;
+        String value = getOverride("datatype", "DATATYPE");
+
+        return value != null ? value : datatype;
     }
     public void setDataType(String datatype){
         this.datatype=datatype;
     }
 
     public LocalDate getTimestamp(){
-        String override = System.getProperty("timestamp");
-        if(override!=null)
-            return LocalDate.parse(override);
-        return timestamp;
+        String value = getOverride("timestamp", "TIMESTAMP");
+
+        return value != null ? LocalDate.parse(value) : timestamp;
     }
     public void setTimestamp(LocalDate timestamp){
         this.timestamp=timestamp;
     }
 
     public int getTimePeriod(){
-        String override = System.getProperty("timeperiod");
-        if(override!=null)
-            return Integer.parseInt(override);
-        return timeperiod;
+        String value = getOverride("timeperiod", "TIMEPERIOD");
+
+        return value != null ? Integer.parseInt(value) : timeperiod;
     }
     public void setTimePeriod(int timeperiod){
         this.timeperiod=timeperiod;
     }
 
     public String getCdrHost(){
-        String override = System.getProperty("cdrhost");
-        if(override!=null)
-            return override;
-        return cdrhost;
+        String value = getOverride("cdrhost", "CDRHOST");
+
+        return value != null ? value : cdrhost;
     }
     public void setCdrHost(String cdrhost){
         this.cdrhost=cdrhost;
     }
 
     public int getCdrPort(){
-        String override = System.getProperty("cdrport");
-        if(override!=null)
-            return Integer.parseInt(override);
-        return cdrport;
+        String value = getOverride("cdrport", "CDRPORT");
+
+        return value != null ? Integer.parseInt(value) : cdrport; 
     }
     public void setCdrPort(int cdrport){
         this.cdrport=cdrport;
     }
 
     public String getNatHost(){
-        String override = System.getProperty("nathost");
-        if(override!=null)
-            return override;
-        return nathost;
+        String value = getOverride("nathost", "NATHOST");
+
+        return value != null ? value : nathost;
     }
     public void setNatHost(String nathost){
         this.nathost=nathost;
     }
 
     public int getNatPort(){
-        String override = System.getProperty("natport");
-        if(override!=null)
-            return Integer.parseInt(override);
-        return natport;
+        String value = getOverride("natport", "NATPORT");
+
+        return value != null ? Integer.parseInt(value) : natport;
     }
     public void setNatPort(int natport){
         this.natport=natport;
     }
+
+    /*  This getOverride is a function used to reduce repeated code, this is to decide if override comes from 
+        command line -d properties or docker compose, if neither then it will simply return application.yml config value  */
+    
+    private String getOverride(String propertyName, String envName) {
+    String property = System.getProperty(propertyName);
+    if (property != null) {
+        return property;
+    }
+
+    return System.getenv(envName);
+}
 }

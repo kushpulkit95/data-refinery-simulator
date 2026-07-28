@@ -1,6 +1,5 @@
 package com.pk.data_refinery_simulator.model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class CDRRecord {

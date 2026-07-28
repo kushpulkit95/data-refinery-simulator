@@ -1,14 +1,7 @@
 package com.pk.data_refinery_simulator;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import com.pk.data_refinery_simulator.generator.CDRGenerator;
-import com.pk.data_refinery_simulator.generator.NATGenerator;
-import com.pk.data_refinery_simulator.model.CDRRecord;
-import com.pk.data_refinery_simulator.model.NATRecord;
 
 @SpringBootApplication
 public class DataRefinerySimulatorApplication {
