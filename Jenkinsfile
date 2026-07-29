@@ -17,7 +17,8 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t data-refinery-simulator:latest .'
+                bat 'docker build -t data-refinery-simulator:%BUILD_NUMBER% .'
+                bat 'docker tag data-refinery-simulator:%BUILD_NUMBER% data-refinery-simulator:latest'
             }
         }
 
