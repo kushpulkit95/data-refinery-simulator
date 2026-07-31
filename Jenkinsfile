@@ -25,7 +25,25 @@ pipeline {
                 bat 'docker tag %IMAGE_NAME%:%BUILD_NUMBER% %IMAGE_NAME%:latest'
             }
         }
+        stage('Test Credentials') {
+            steps {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'dockerhub-creds',
+                        usernameVariable: 'DOCKER_USER',
+                        passwordVariable: 'DOCKER_PASS'
+                    )
+                ]) {
+                    powershell '''
+                    Write-Host "Username from Jenkins:"
+                    Write-Host $env:DOCKER_USER
 
+                    Write-Host "Password length:"
+                    Write-Host $env:DOCKER_PASS.Length
+                    '''
+                }
+            }
+}
         stage('Push Docker Image') {
             steps {
                 withCredentials([
