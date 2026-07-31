@@ -35,11 +35,13 @@ pipeline {
                     )
                 ]) {
                     powershell '''
-                    Write-Host "Username from Jenkins:"
-                    Write-Host $env:DOCKER_USER
+                    whoami
 
-                    Write-Host "Password length:"
-                    Write-Host $env:DOCKER_PASS.Length
+                    $env:USERPROFILE
+
+                    docker context ls
+
+                    docker version
                     '''
                 }
             }
