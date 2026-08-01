@@ -36,13 +36,18 @@ pipeline {
                     )
                 ]) {
                     powershell '''
+                    Write-Host "=== Before login ==="
+
                     $env:DOCKER_PASS | docker login -u $env:DOCKER_USER --password-stdin
 
+                    Write-Host "Exit Code: $LASTEXITCODE"
+
                     if ($LASTEXITCODE -ne 0) {
-                        throw "Docker login failed."
+                        throw "Docker login failed with exit code $LASTEXITCODE"
                     }
 
-                    Write-Host "Login succeeded."
+                    Write-Host "=== Login successful ==="
+
                     docker logout
                     '''
                 }
