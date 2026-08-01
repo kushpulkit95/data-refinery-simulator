@@ -25,7 +25,8 @@ pipeline {
                 bat 'docker tag %IMAGE_NAME%:%BUILD_NUMBER% %IMAGE_NAME%:latest'
             }
         }
-        stage('Push Docker Image') {
+
+        stage('Login Test') {
             steps {
                 withCredentials([
                     usernamePassword(
@@ -35,12 +36,13 @@ pipeline {
                     )
                 ]) {
                     powershell '''
-                    $pass = $env:DOCKER_PASS
-                    $pass | docker login -u $env:DOCKER_USER --password-stdin
+                    $env:DOCKER_PASS | docker login -u $env:DOCKER_USER --password-stdin
 
-                    docker push $env:IMAGE_NAME:$env:BUILD_NUMBER
-                    docker push $env:IMAGE_NAME`:latest
+                    if ($LASTEXITCODE -ne 0) {
+                        throw "Docker login failed."
+                    }
 
+                    Write-Host "Login succeeded."
                     docker logout
                     '''
                 }
