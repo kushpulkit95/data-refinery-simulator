@@ -25,27 +25,6 @@ pipeline {
                 bat 'docker tag %IMAGE_NAME%:%BUILD_NUMBER% %IMAGE_NAME%:latest'
             }
         }
-        stage('Test Credentials') {
-            steps {
-                withCredentials([
-                    usernamePassword(
-                        credentialsId: 'dockerhub-creds',
-                        usernameVariable: 'DOCKER_USER',
-                        passwordVariable: 'DOCKER_PASS'
-                    )
-                ]) {
-                    powershell '''
-                    whoami
-
-                    $env:USERPROFILE
-
-                    docker context ls
-
-                    docker version
-                    '''
-                }
-            }
-}
         stage('Push Docker Image') {
             steps {
                 withCredentials([
