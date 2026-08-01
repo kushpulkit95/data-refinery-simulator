@@ -36,20 +36,16 @@ pipeline {
                     )
                 ]) {
                     powershell '''
-                    Write-Host "=== Before login ==="
+                    Write-Host "Username: '$($env:DOCKER_USER)'"
+                    Write-Host "Username Length: $($env:DOCKER_USER.Length)"
+
+                    $bytes = [System.Text.Encoding]::UTF8.GetBytes($env:DOCKER_USER)
+                    Write-Host "Username Bytes:"
+                    $bytes
 
                     $env:DOCKER_PASS | docker login -u $env:DOCKER_USER --password-stdin
 
                     Write-Host "Exit Code: $LASTEXITCODE"
-
-                    if ($LASTEXITCODE -ne 0) {
-                        throw "Docker login failed with exit code $LASTEXITCODE"
-                    }
-
-                    Write-Host "=== Login successful ==="
-
-                    docker logout
-                    '''
                 }
             }
         }
