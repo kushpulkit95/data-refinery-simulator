@@ -46,6 +46,7 @@ pipeline {
                     $env:DOCKER_PASS | docker login -u $env:DOCKER_USER --password-stdin
 
                     Write-Host "Exit Code: $LASTEXITCODE"
+                    '''
                 }
             }
         }
