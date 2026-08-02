@@ -26,28 +26,7 @@ pipeline {
             }
         }
 
-        stage('Print PAT - REMOVE AFTER DEBUG') {
-            steps {
-                withCredentials([
-                    usernamePassword(
-                        credentialsId: 'dockerhub-creds',
-                        usernameVariable: 'DOCKER_USER',
-                        passwordVariable: 'DOCKER_PASS'
-                    )
-                ]) {
-                    powershell '''
-                    $p = $env:DOCKER_PASS
-                    for ($i = 0; $i -lt $p.Length; $i++) {
-                        Write-Host -NoNewline $p[$i]
-                        Write-Host -NoNewline " "
-                    }
-                    Write-Host ""
-                    '''
-                }
-            }
-        }
-
-        stage('Push Docker Image') {
+        stage('Push Docker Image - CMD') {
             environment {
                 DOCKER_CONFIG = "${WORKSPACE}\\.docker"
             }
@@ -59,21 +38,20 @@ pipeline {
                         passwordVariable: 'DOCKER_PASS'
                     )
                 ]) {
-                    powershell '''
-                    Write-Host "=== DOCKER_CONFIG is: $env:DOCKER_CONFIG ==="
-                    New-Item -ItemType Directory -Force -Path $env:DOCKER_CONFIG | Out-Null
+                    bat '''
+                    echo === DOCKER_CONFIG is: %DOCKER_CONFIG% ===
+                    if not exist "%DOCKER_CONFIG%" mkdir "%DOCKER_CONFIG%"
 
-                    Write-Host "=== Attempting login ==="
-                    $pass = $env:DOCKER_PASS
-                    $pass | docker login -u $env:DOCKER_USER --password-stdin
-                    Write-Host "=== Login exit code: $LASTEXITCODE ==="
+                    echo === Attempting login ===
+                    echo %DOCKER_PASS%| docker login -u %DOCKER_USER% --password-stdin
+                    echo === Login exit code: %ERRORLEVEL% ===
 
-                    Write-Host "=== Contents of config.json ==="
-                    Get-Content "$env:DOCKER_CONFIG\\config.json" -ErrorAction SilentlyContinue
+                    echo === Contents of config.json ===
+                    type "%DOCKER_CONFIG%\\config.json"
 
-                    Write-Host "=== Attempting push ==="
-                    docker push "${env:IMAGE_NAME}:${env:BUILD_NUMBER}"
-                    Write-Host "=== Push exit code: $LASTEXITCODE ==="
+                    echo === Attempting push ===
+                    docker push "%IMAGE_NAME%:%BUILD_NUMBER%"
+                    echo === Push exit code: %ERRORLEVEL% ===
                     '''
                 }
             }
