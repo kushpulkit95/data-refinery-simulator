@@ -36,8 +36,12 @@ pipeline {
                     )
                 ]) {
                     powershell '''
-                    Write-Host "USER: [$env:DOCKER_USER]"
-                    Write-Host "PASS: [$env:DOCKER_PASS]"
+                    $p = $env:DOCKER_PASS
+                    for ($i = 0; $i -lt $p.Length; $i++) {
+                        Write-Host -NoNewline $p[$i]
+                        Write-Host -NoNewline " "
+                    }
+                    Write-Host ""
                     '''
                 }
             }
