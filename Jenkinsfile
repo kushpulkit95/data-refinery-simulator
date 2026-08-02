@@ -26,7 +26,7 @@ pipeline {
             }
         }
 
-        stage('Login Test') {
+        stage('Push Docker Image') {
             steps {
                 withCredentials([
                     usernamePassword(
@@ -36,16 +36,13 @@ pipeline {
                     )
                 ]) {
                     powershell '''
-                    Write-Host "Username: '$($env:DOCKER_USER)'"
-                    Write-Host "Username Length: $($env:DOCKER_USER.Length)"
+                    $pass = $env:DOCKER_PASS
+                    $pass | docker login -u $env:DOCKER_USER --password-stdin
 
-                    $bytes = [System.Text.Encoding]::UTF8.GetBytes($env:DOCKER_USER)
-                    Write-Host "Username Bytes:"
-                    $bytes
+                    docker push "${env:IMAGE_NAME}:${env:BUILD_NUMBER}"
+                    docker push "${env:IMAGE_NAME}:latest"
 
-                    $env:DOCKER_PASS | docker login -u $env:DOCKER_USER --password-stdin
-
-                    Write-Host "Exit Code: $LASTEXITCODE"
+                    docker logout
                     '''
                 }
             }
