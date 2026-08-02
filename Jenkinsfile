@@ -26,6 +26,26 @@ pipeline {
             }
         }
 
+        stage('Debug Credential') {
+            steps {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'dockerhub-creds',
+                        usernameVariable: 'DOCKER_USER',
+                        passwordVariable: 'DOCKER_PASS'
+                    )
+                ]) {
+                    powershell '''
+                    Write-Host "Username length: $($env:DOCKER_USER.Length)"
+                    Write-Host "Username chars: $([string]::Join(",", $env:DOCKER_USER.ToCharArray() | ForEach-Object { [int]$_ }))"
+                    Write-Host "Password length: $($env:DOCKER_PASS.Length)"
+                    Write-Host "Password first char code: $([int]$env:DOCKER_PASS[0])"
+                    Write-Host "Password last char code: $([int]$env:DOCKER_PASS[-1])"
+                    '''
+                }
+            }
+        }
+
         stage('Push Docker Image') {
             environment {
                 DOCKER_CONFIG = "${WORKSPACE}\\.docker"
