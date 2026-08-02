@@ -36,11 +36,18 @@ pipeline {
                     )
                 ]) {
                     powershell '''
-                    Write-Host "Username length: $($env:DOCKER_USER.Length)"
-                    Write-Host "Username chars: $([string]::Join(",", $env:DOCKER_USER.ToCharArray() | ForEach-Object { [int]$_ }))"
-                    Write-Host "Password length: $($env:DOCKER_PASS.Length)"
-                    Write-Host "Password first char code: $([int]$env:DOCKER_PASS[0])"
-                    Write-Host "Password last char code: $([int]$env:DOCKER_PASS[-1])"
+                    $u = $env:DOCKER_USER
+                    $p = $env:DOCKER_PASS
+
+                    Write-Host "Username length: $($u.Length)"
+                    Write-Host "Password length: $($p.Length)"
+
+                    $uCodes = @()
+                    foreach ($c in $u.ToCharArray()) { $uCodes += [int]$c }
+                    Write-Host "Username char codes: $($uCodes -join ",")"
+
+                    Write-Host "Password first char code: $([int][char]$p[0])"
+                    Write-Host "Password last char code: $([int][char]$p[-1])"
                     '''
                 }
             }
