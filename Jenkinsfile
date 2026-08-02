@@ -27,6 +27,9 @@ pipeline {
         }
 
         stage('Push Docker Image') {
+            environment {
+                DOCKER_CONFIG = "${WORKSPACE}\\.docker"
+            }
             steps {
                 withCredentials([
                     usernamePassword(
@@ -36,6 +39,8 @@ pipeline {
                     )
                 ]) {
                     powershell '''
+                    New-Item -ItemType Directory -Force -Path $env:DOCKER_CONFIG | Out-Null
+
                     $pass = $env:DOCKER_PASS
                     $pass | docker login -u $env:DOCKER_USER --password-stdin
 
