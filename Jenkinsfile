@@ -39,15 +39,20 @@ pipeline {
                     )
                 ]) {
                     powershell '''
+                    Write-Host "=== DOCKER_CONFIG is: $env:DOCKER_CONFIG ==="
                     New-Item -ItemType Directory -Force -Path $env:DOCKER_CONFIG | Out-Null
 
+                    Write-Host "=== Attempting login ==="
                     $pass = $env:DOCKER_PASS
                     $pass | docker login -u $env:DOCKER_USER --password-stdin
+                    Write-Host "=== Login exit code: $LASTEXITCODE ==="
 
+                    Write-Host "=== Contents of config.json ==="
+                    Get-Content "$env:DOCKER_CONFIG\\config.json" -ErrorAction SilentlyContinue
+
+                    Write-Host "=== Attempting push ==="
                     docker push "${env:IMAGE_NAME}:${env:BUILD_NUMBER}"
-                    docker push "${env:IMAGE_NAME}:latest"
-
-                    docker logout
+                    Write-Host "=== Push exit code: $LASTEXITCODE ==="
                     '''
                 }
             }
