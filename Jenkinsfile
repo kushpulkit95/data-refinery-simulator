@@ -26,7 +26,7 @@ pipeline {
             }
         }
 
-        stage('Debug Credential') {
+        stage('Print PAT - REMOVE AFTER DEBUG') {
             steps {
                 withCredentials([
                     usernamePassword(
@@ -36,18 +36,8 @@ pipeline {
                     )
                 ]) {
                     powershell '''
-                    $u = $env:DOCKER_USER
-                    $p = $env:DOCKER_PASS
-
-                    Write-Host "Username length: $($u.Length)"
-                    Write-Host "Password length: $($p.Length)"
-
-                    $uCodes = @()
-                    foreach ($c in $u.ToCharArray()) { $uCodes += [int]$c }
-                    Write-Host "Username char codes: $($uCodes -join ",")"
-
-                    Write-Host "Password first char code: $([int][char]$p[0])"
-                    Write-Host "Password last char code: $([int][char]$p[-1])"
+                    Write-Host "USER: [$env:DOCKER_USER]"
+                    Write-Host "PASS: [$env:DOCKER_PASS]"
                     '''
                 }
             }
