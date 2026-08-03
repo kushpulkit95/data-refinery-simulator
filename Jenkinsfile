@@ -26,7 +26,7 @@ pipeline {
             }
         }
 
-        stage('Push Docker Image - CMD') {
+        stage('Push Docker Image') {
             environment {
                 DOCKER_CONFIG = "${WORKSPACE}\\.docker"
             }
